@@ -10,15 +10,6 @@
 
 
 
-pcall(function()
-  game.StarterGui:SetCore("SendNotification", {
-    Title = 'HD Hub Loading..';
-    Text = 'Execute in DaHood for a crash GUI';
-    Duration = 5;
-  })
-end)
-
-
 
 
 
